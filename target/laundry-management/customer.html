@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Customer - Cyron's Laundry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        html, body {
+            height: 100%;
+            background: gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .phone-frame {
+            padding-top: 30px;
+            padding-bottom: 0px;
+            width: 390px;
+            height: 844px;
+            background: #4FC3F7;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .phone-frame::-webkit-scrollbar {
+            width: 3px;
+        }
+        .phone-frame::-webkit-scrollbar-thumb {
+            background: #1f6f8a;
+            border-radius: 10px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 14px;
+            margin-bottom: 6px;
+        }
+        .top-bar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f2b3a;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+        .top-bar .user-info:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        .top-bar .user-info i {
+            font-size: 1.4rem;
+            color: #0f2b3a;
+        }
+        .logout-btn {
+            font-size: 0.75rem;
+            color: #0f2b3a;
+            text-decoration: none;
+            background: rgba(255,255,255,0.5);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.8);
+        }
+        .back-btn {
+            margin-left: 10px;
+            padding-right: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #0f2b3a;
+            width: fit-content;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            background: #dce6ed;
+        }
+        h2 {
+            color: #0f2b3a;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        .sub-title {
+            text-align: center;
+            color: #4f6f82;
+            font-size: 0.8rem;
+        }
+        .form-card {
+            width: 100%;
+            background: white;
+            border-radius: 18px;
+            padding: 16px 14px;
+            border: 1px solid #e8eef2;
+            flex: 1;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #0f2b3a;
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+        .label-with-cart {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mini-cart {
+            background: #eef3f7;
+            border-radius: 30px;
+            padding: 0px 12px;
+            border: 1px solid #dce6ed;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            color: #0f2b3a;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .mini-cart:hover {
+            background: #dce6ed;
+        }
+        .mini-cart .badge {
+            color: black;
+            border-radius: 30px;
+            padding-left: 5px;
+            font-size: 0.6rem;
+            font-size: 23px;
+            margin-top: -3px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-group-inline {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .btn-group-inline label {
+            flex: 1;
+            min-width: 70px;
+            margin: 0;
+            padding: 0;
+        }
+        .btn-group-inline label input {
+            display: none;
+        }
+        .btn-group-inline .option-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 60px;
+            border: 2px solid #dce6ed;
+            background: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            color: #0f2b3a;
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-group-inline .option-btn:hover {
+            background: #eef3f7;
+        }
+        .btn-group-inline input:checked + .option-btn {
+            background: #1f6f8a;
+            color: white;
+            border-color: #1f6f8a;
+        }
+        .btn-group-inline input:checked + .option-btn:hover {
+            background: #185a72;
+            border-color: #185a72;
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.25s;
+        }
+        .btn-secondary {
+            background: #1a8c4a;
+            color: white;
+            box-shadow: 0 4px 16px rgba(31, 111, 138, 0.2);
+            padding: 15px 20px;
+        }
+        .btn-secondary:hover {
+            background: #185a72;
+            box-shadow: 0 8px 24px rgba(31, 111, 138, 0.25);
+        }
+        .order-summary-box {
+            margin-top: 14px;
+            background: white;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid #e8eef2;
+            display: none;
+        }
+        .order-summary-box.show {
+            display: block;
+        }
+        .order-summary-box h4 {
+            font-size: 0.9rem;
+            color: #0f2b3a;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eef3f7;
+            padding-bottom: 8px;
+        }
+        .order-summary-box .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            color: #0f2b3a;
+        }
+        .order-summary-box .detail-row .label {
+            color: #4f6f82;
+        }
+        .order-summary-box .detail-row .value {
+            font-weight: 600;
+        }
+        .notification {
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 0 14px 12px 14px;
+            font-size: 0.85rem;
+            color: #0f2b3a;
+            display: none;
+        }
+        .notification.show {
+            display: block;
+        }
+        .notification.error {
+            background: #FFEBEE;
+        }
+        .notification.success {
+            background: #E8F5E9;
+        }
+        .footer-note {
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: #6f8fa2;
+            text-align: center;
+            border-top: 1px solid #eef3f7;
+            padding-top: 12px;
+            flex-shrink: 0;
+        }
+
+        /* ===== SUCCESS POPUP MODAL ===== */
+        .success-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .success-popup.show {
+            display: flex;
+        }
+        .success-popup .popup-box {
+            background: white;
+            border-radius: 24px;
+            max-width: 320px;
+            width: 100%;
+            padding: 32px 24px 24px;
+            text-align: center;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .success-popup .popup-box .icon {
+            font-size: 3.5rem;
+            color: #1a8c4a;
+            margin-bottom: 12px;
+        }
+        .success-popup .popup-box h3 {
+            font-size: 1.2rem;
+            color: #0f2b3a;
+            margin-bottom: 6px;
+        }
+        .success-popup .popup-box p {
+            font-size: 0.9rem;
+            color: #4f6f82;
+            margin-bottom: 20px;
+        }
+        .success-popup .popup-box .btn-ok {
+            background: #1f6f8a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .success-popup .popup-box .btn-ok:hover {
+            background: #185a72;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .cart-modal.show {
+            display: flex;
+        }
+        .cart-modal .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 390px;
+            width: 100%;
+            padding: 24px 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .cart-modal .modal-content h3 {
+            font-size: 1.1rem;
+            color: #0f2b3a;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-modal .modal-content .close-btn {
+            background: #eef3f7;
+            border: none;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .cart-modal .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eef3f7;
+            font-size: 0.8rem;
+        }
+        .cart-modal .cart-item .status-badge {
+            padding: 2px 10px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: white;
+        }
+        .cart-modal .cart-item .status-badge.pending {
+            background: #b8860b;
+        }
+        .cart-modal .cart-item .status-badge.ongoing {
+            background: #1f6f8a;
+        }
+        .cart-modal .cart-item .status-badge.completed {
+            background: #1a8c4a;
+        }
+        .cart-modal .empty-cart {
+            text-align: center;
+            color: #6f8fa2;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 430px) {
+            .phone-frame {
+                max-height: 98vh;
+                padding: 18px 12px;
+                border-radius: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="user-info" id="userInfo">
+                <i class="fas fa-user-circle" style="font-size: 32px;"></i>
+                <span id="userNameDisplay">Customer</span>
+            </div>
+            <a href="index.html" class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+
+        <!-- Back + Title -->
+        <div style="display: flex; align-items: center; margin-top: -10px; margin-bottom: 5px; padding: 0 10px;">
+            <h2 style="flex: 1; margin-top: 22px; text-align: center;">Schedule Service</h2>
+        </div>
+        <p class="sub-title" style="text-align: center; margin-top: -6px; margin-bottom: 22px;">Fill in the details below</p>
+
+        <div id="customerNotification" class="notification"></div>
+
+        <div class="form-card">
+            <!-- Service Type (Radio) -->
+            <div class="form-group">
+                <div class="label-with-cart">
+                    <label><i style="margin-top: 15px;" class="fas fa-truck"></i> Service Type</label>
+                    <div style="margin-bottom: 10px;" class="mini-cart" id="miniCartIcon">
+                        <i class="fas fa-shopping-cart fa-2x"></i> <span class="badge" id="miniCartBadge">0</span>
+                    </div>
+                </div>
+                <div class="btn-group-inline" id="serviceTypeGroup">
+                    <label>
+                        <input type="radio" name="serviceType" value="dropoff" checked />
+                        <span class="option-btn">Drop-off</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="serviceType" value="pickup" />
+                        <span class="option-btn">Pick-up</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Select Services (Checkbox) -->
+            <div class="form-group">
+                <label><i class="fas fa-list"></i> Select Services</label>
+                <div class="btn-group-inline" id="servicesGroup">
+                    <label>
+                        <input type="checkbox" value="Wash" checked />
+                        <span class="option-btn">Wash</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" value="Dry" />
+                        <span class="option-btn">Dry</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" value="Fold" />
+                        <span class="option-btn">Fold</span>
+                    </label>
+                </div>
+            </div>
+
+            <button style="margin-top: 10px;" class="btn btn-secondary" id="submitOrderBtn">Submit Order</button>
+
+            <div id="orderSummaryBox" class="order-summary-box">
+                <h4><i class="fas fa-receipt"></i> Order Details</h4>
+                <div id="orderSummaryContent"></div>
+                <div class="footer-note">
+                    <i class="fas fa-info-circle"></i> Staff will update weight, price, and time
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS POPUP (CENTER) -->
+    <div class="success-popup" id="successPopup">
+        <div class="popup-box">
+            <div class="icon"><i class="fas fa-check-circle"></i></div>
+            <h3>Order Submitted!</h3>
+            <p id="popupMessage">Your order has been placed successfully.</p>
+            <button class="btn-ok" id="popupOkBtn">Okay</button>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="modal-content">
+            <h3>
+                <span><i class="fas fa-shopping-cart"></i> My Orders</span>
+                <button class="close-btn" id="closeCartBtn"><i class="fas fa-times"></i> Close</button>
+            </h3>
+            <div id="cartOrdersList">
+                <div class="empty-cart">No orders yet. Schedule your first laundry service!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== LOAD USER NAME =====
+        const customerId = localStorage.getItem('current_customer_id');
+        if (customerId) {
+            const users = JSON.parse(localStorage.getItem('laundry_users') || '[]');
+            const user = users.find(u => u.id == customerId);
+            if (user) {
+                document.getElementById('userNameDisplay').textContent = user.firstName + ' ' + user.lastName;
+            }
+        }
+
+        // ===== LOGOUT =====
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('current_customer_id');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // ===== MINI CART =====
+        document.getElementById('miniCartIcon').addEventListener('click', function() {
+            renderCartOrders();
+            document.getElementById('cartModal').classList.add('show');
+        });
+
+        // ===== SUBMIT ORDER =====
+        document.getElementById('submitOrderBtn').addEventListener('click', function() {
+            const notif = document.getElementById('customerNotification');
+            const customerId = localStorage.getItem('current_customer_id');
+
+            if (!customerId) {
+                notif.className = 'notification show error';
+                notif.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please log in first.';
+                return;
+            }
+
+            const serviceType = document.querySelector('input[name="serviceType"]:checked').value;
+            const services = [];
+            document.querySelectorAll('#servicesGroup input[type="checkbox"]:checked').forEach(cb => services.push(cb.value));
+
+            if (services.length === 0) {
+                notif.className = 'notification show error';
+                notif.innerHTML = '<i class="fas fa-exclamation-circle"></i> Select at least one service.';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('laundry_users') || '[]');
+            const user = users.find(u => u.id == customerId);
+            const customerName = user ? user.firstName + ' ' + user.lastName : 'Customer';
+
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const queueNumber = orders.filter(o => o.status === 'pending' || o.status === 'ongoing').length + 1;
+            const newOrder = {
+                id: Date.now(),
+                customerId: parseInt(customerId),
+                customerName: customerName,
+                services: services.join(', '),
+                serviceType: serviceType,
+                status: 'pending',
+                queueNumber: queueNumber,
+                createdAt: new Date().toLocaleString()
+            };
+            orders.push(newOrder);
+            localStorage.setItem('laundry_orders', JSON.stringify(orders));
+
+            // Show order summary
+            const summaryBox = document.getElementById('orderSummaryBox');
+            const summaryContent = document.getElementById('orderSummaryContent');
+            summaryContent.innerHTML = `
+                <div class="detail-row"><span class="label">Queue #</span><span class="value">${queueNumber}</span></div>
+                <div class="detail-row"><span class="label">Customer</span><span class="value">${customerName}</span></div>
+                <div class="detail-row"><span class="label">Service Type</span><span class="value">${serviceType === 'dropoff' ? 'Drop-off' : 'Pick-up'}</span></div>
+                <div class="detail-row"><span class="label">Services</span><span class="value">${services.join(' + ')}</span></div>
+                <div class="detail-row"><span class="label">Status</span><span class="value" style="color:#b8860b;">Pending</span></div>
+                <div class="detail-row"><span class="label">Submitted</span><span class="value">${new Date().toLocaleString()}</span></div>
+            `;
+            summaryBox.classList.add('show');
+
+            // ===== SHOW SUCCESS POPUP (CENTER) =====
+            document.getElementById('popupMessage').textContent = 'Order #' + queueNumber + ' submitted successfully!';
+            document.getElementById('successPopup').classList.add('show');
+
+            updateCartBadge();
+            document.querySelectorAll('#servicesGroup input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelector('#servicesGroup input[value="Wash"]').checked = true;
+        });
+
+        // ===== POPUP OK BUTTON =====
+        document.getElementById('popupOkBtn').addEventListener('click', function() {
+            document.getElementById('successPopup').classList.remove('show');
+        });
+
+        // ===== CART =====
+        function updateCartBadge() {
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const customerId = localStorage.getItem('current_customer_id');
+            const userOrders = customerId ? orders.filter(o => o.customerId == customerId) : [];
+            document.getElementById('miniCartBadge').textContent = userOrders.length;
+        }
+
+        function renderCartOrders() {
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const customerId = localStorage.getItem('current_customer_id');
+            const list = document.getElementById('cartOrdersList');
+
+            if (!customerId) {
+                list.innerHTML = '<div class="empty-cart">Please log in to view your orders.</div>';
+                return;
+            }
+
+            const userOrders = orders.filter(o => o.customerId == customerId);
+            if (userOrders.length === 0) {
+                list.innerHTML = '<div class="empty-cart">No orders yet. Schedule your first laundry service!</div>';
+                return;
+            }
+
+            let html = '';
+            userOrders.forEach(o => {
+                const statusClass = o.status === 'pending' ? 'pending' : o.status === 'ongoing' ? 'ongoing' : 'completed';
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>#${o.queueNumber}</strong> — ${o.services}
+                            <br /><small style="color:#4f6f82;">${o.serviceType === 'dropoff' ? 'Drop-off' : 'Pick-up'} · ${o.createdAt}</small>
+                        </div>
+                        <span class="status-badge ${statusClass}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        document.getElementById('closeCartBtn').addEventListener('click', function() {
+            document.getElementById('cartModal').classList.remove('show');
+        });
+
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        updateCartBadge();
+    </script>
+
+</body>
+</html>

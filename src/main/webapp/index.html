@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Cyron's Laundry Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        html,
+        body {
+            height: 100%;
+            background: #d4edff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            background: white;
+            padding: 30px 24px 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .phone-frame::-webkit-scrollbar {
+            width: 3px;
+        }
+        .phone-frame::-webkit-scrollbar-thumb {
+            background: #1f6f8a;
+            border-radius: 10px;
+        }
+
+        /* ===== CENTER CONTENT ===== */
+        
+        .shop-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #0f2b3a;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        .shop-name span {
+            color: #1f6f8a;
+        }
+        .tagline {
+            color: #4f6f82;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 2px;
+            margin-bottom: 6px;
+        }
+
+        /* ===== BUTTONS AT BABA ===== */
+        .btn-group {
+            margin-bottom: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            margin-top: auto;
+            
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            transition: 0.25s;
+        }
+        .btn-primary {
+            background: #0f2b3a;
+            color: white;
+            box-shadow: 0 4px 16px rgba(15, 43, 58, 0.2);
+        }
+        .btn-primary:hover {
+            background: #1a3f52;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15, 43, 58, 0.25);
+        }
+        .btn-secondary {
+            background: #1f6f8a;
+            color: white;
+            box-shadow: 0 4px 16px rgba(31, 111, 138, 0.2);
+        }
+        .btn-secondary:hover {
+            background: #185a72;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(31, 111, 138, 0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #0f2b3a;
+            border: 2px solid #dce6ed;
+        }
+        .btn-outline:hover {
+            background: #f0f5f9;
+            transform: translateY(-2px);
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .btn-row .btn {
+            flex: 1;
+        }
+
+        /* ===== FOOTER META ===== */
+        .footer-meta {
+            margin-top: 12px;
+            padding-top: 14px;
+            font-size: 0.7rem;
+            color: #6f8fa2;
+            text-align: center;
+            border-top: 1px solid #eef3f7;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 430px) {
+            .phone-frame {
+                max-height: 98vh;
+                padding: 20px 16px;
+                border-radius: 30px;
+            }
+            .logo {
+                width: 90px;
+                height: 90px;
+                font-size: 3rem;
+            }
+            .shop-name {
+                font-size: 1.4rem;
+            }
+            .btn {
+                padding: 13px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-height: 700px) {
+            .logo {
+                width: 80px;
+                height: 80px;
+                font-size: 2.6rem;
+            }
+            .shop-name {
+                font-size: 1.2rem;
+            }
+            .tagline {
+                font-size: 0.75rem;
+            }
+            .btn {
+                padding: 11px 14px;
+                font-size: 0.85rem;
+            }
+            .btn-group {
+                gap: 10px;
+                padding-top: 12px;
+            }
+            .footer-meta {
+                margin-top: 8px;
+                padding-top: 10px;
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+    <!-- ===== CENTER: LOGO + NAME ===== -->
+        <div style="margin-top: 150px" class="logo"><img src="laundry_logo.png" alt="Laundry Logo" style="width: 180px; height: 180px; object-fit: contain;" /></div>
+        <div class="shop-name">Cyron's <span>Laundry Shop</span></div>
+        <div class="tagline">Clean · Fresh · Delivered</div>
+
+        <!-- ===== BUTTONS AT BABA ===== -->
+        <div class="btn-group">
+            <a href="login.html" style="margin-bottom: 8px" class="btn btn-primary">Schedule Laundry Service</a>
+            <div class="btn-row">
+                <a href="register.html" class="btn btn-outline">Register</a>
+                <a href="login.html" class="btn btn-secondary">Sign In</a>
+            </div>
+        </div>
+    
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer-meta">
+        <i class="fas fa-cloud-sun"></i> 30°C · Mostly cloudy
+        <span style="margin:0 8px;">|</span>
+        <i class="fas fa-clock"></i> <span id="clockDisplay"></span>
+    </div>
+</div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clockDisplay').textContent = h + ':' + m;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>
