@@ -17,19 +17,36 @@ public class DatabaseConnection {
             String dbUrl, dbUser, dbPassword, driver;
             
             // RAILWAY: Use environment variables
-            String railwayUrl = System.getenv("MYSQL_URL") != null ? System.getenv("MYSQL_URL") : System.getenv("DATABASE_URL");
-            String railwayUser = System.getenv("MYSQL_USER") != null ? System.getenv("MYSQL_USER") : System.getenv("DATABASE_USERNAME");
-            String railwayPass = System.getenv("MYSQL_PASSWORD") != null ? System.getenv("MYSQL_PASSWORD") : System.getenv("DATABASE_PASSWORD");
+            String railwayUrl = System.getenv("MYSQL_URL");
+            String railwayUser = System.getenv("MYSQL_USER");
+            String railwayPass = System.getenv("MYSQL_PASSWORD");
+            
+            // Fallback to DATABASE_URL if MYSQL_URL is not set
+            if (railwayUrl == null || railwayUrl.isEmpty()) {
+                railwayUrl = System.getenv("DATABASE_URL");
+                railwayUser = System.getenv("DATABASE_USERNAME");
+                railwayPass = System.getenv("DATABASE_PASSWORD");
+            }
             
             if (railwayUrl != null && !railwayUrl.isEmpty()) {
                 System.out.println("✅ Using Railway MySQL Database");
-                dbUrl = railwayUrl;
-                if (!dbUrl.startsWith("jdbc:")) {
-                    dbUrl = "jdbc:mysql://" + dbUrl;
+                System.out.println("🔍 Raw URL: " + railwayUrl);
+                
+                // Convert mysql:// to jdbc:mysql://
+                if (railwayUrl.startsWith("mysql://")) {
+                    dbUrl = railwayUrl.replace("mysql://", "jdbc:mysql://");
+                } else if (!railwayUrl.startsWith("jdbc:")) {
+                    dbUrl = "jdbc:mysql://" + railwayUrl;
+                } else {
+                    dbUrl = railwayUrl;
                 }
+                
                 driver = "com.mysql.cj.jdbc.Driver";
                 dbUser = railwayUser != null ? railwayUser : "";
                 dbPassword = railwayPass != null ? railwayPass : "";
+                
+                System.out.println("🔍 JDBC URL: " + dbUrl);
+                
             } else {
                 // LOCAL: MySQL
                 System.out.println("✅ Using Local MySQL");
